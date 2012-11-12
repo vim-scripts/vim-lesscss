@@ -1,0 +1,27 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=4310
+
+Vim plugin that make it easy to edit less files without need to manually
+update corresponding css file.
+
+Just open your `less` file in Vim and edit it. On save corresponding `css`
+file will be created with the same name as original.
+
+Use ':Lesscss[!] [cmd] to run predefined command or reuse previous.
+
+Each command is a dictionary that define custom options you want to use
+when ':Lesscss' runs, such as less compiler options or output file location.
+
+Command applied globally unless the ! is provided, in which case the command
+applied only to current buffer.
+
+For example, to disable Lesscss for all buffers run:
+
+    :Lesscss off
+
+To disable Lesscss only for current one use:
+
+    :Lesscss! off
+
+For more details, see README on github:
+
+https://github.com/vitalk/vim-lesscss
