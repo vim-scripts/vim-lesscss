@@ -25,6 +25,9 @@ call lesscss#default('g:lesscss_on', 1)
 " default key binding
 call lesscss#default('g:lesscss_toggle_key', '<Leader>l')
 
+" enable source map for output css
+call lesscss#default('g:lesscss_enable_sourcemap', 0)
+
 " registered commands
 call lesscss#default('g:lesscss_commands', {
       \ 'on': {'lesscss_on': 1},
@@ -53,6 +56,10 @@ function! s:lesscss_pipeline()
   let save_to = lesscss#get_option('lesscss_save_to')
   let save_to = expand('%:p:h').'/'.save_to
 
+  if lesscss#get_option('lesscss_enable_sourcemap')
+    let lessc .= ' --source-map="'.save_to.'%:t:r.css.map"'
+  endif
+
   " prevent writing to remote dirs like ftp://*
   if save_to !~# '\v^\w+\:\/'
     if !isdirectory(save_to)
@@ -75,6 +82,12 @@ command! -nargs=?
       \  -bang
       \  -complete=customlist,<SID>lesscss_completion
       \  Lesscss  call s:lesscss(<bang>0, <f-args>)
+
+" Finger-friendly command abbreviation
+cabb lesscss <c-r>=(
+      \ getcmdtype() == ':' &&
+      \ getcmdpos() == 1 ?
+      \ 'Lesscss' : 'lesscss')<CR>
 
 function! s:lesscss(buffer_only, ...)
   if empty(a:000)
